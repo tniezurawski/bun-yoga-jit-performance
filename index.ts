@@ -1,7 +1,8 @@
 import { createYoga } from 'graphql-yoga';
 import { useGraphQlJit } from '@envelop/graphql-jit';
+import { createTypeGraphQLSchema } from './schema.ts';
 
-import schema from './schema';
+const schema = await createTypeGraphQLSchema();
 
 const yoga = createYoga({
   graphqlEndpoint: '/graphql',

@@ -1,29 +1,10 @@
-import { createSchema } from 'graphql-yoga';
+import { buildSchema } from 'type-graphql';
 
-import type { ProductRest } from './src/products/types/product.rest.ts';
-import { products } from './src/products/products.mock.ts';
+import { ProductQueries } from './src/products/product.queries.ts';
+import { ProductResolver } from './src/products/product.resolver.ts';
 
-const schema = createSchema({
-  typeDefs: `
-    type Product {
-      combined: String!
-      direct: String!
-      id: ID!
-      resolved: String!
-    }
-
-    type Query {
-      products: [Product!]!
-    }`,
-  resolvers: {
-    Product: {
-      combined: (parent: ProductRest) => parent.direct + parent.resolved,
-      resolved: (parent: ProductRest) => parent.resolved,
-    },
-    Query: {
-      products: () => products,
-    },
-  },
-});
-
-export default schema;
+export function createTypeGraphQLSchema() {
+  return buildSchema({
+    resolvers: [ProductQueries, ProductResolver],
+  });
+}
